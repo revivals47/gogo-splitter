@@ -103,7 +103,7 @@
         Mac（Intel）<small>v0.4.2 ・ 約350MB ・ macOS 11 以降 ・ 動作確認中</small>
       </a>
       <a class="btn" data-os="linux" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.2/gogo-splitter_0.4.2_amd64.deb">
-        Linux（Ubuntu など・deb）<small>v0.4.2 ・ x86_64</small>
+        Linux（Ubuntu など・deb）<small>v0.4.2 ・ 約270MB ・ x86_64</small>
       </a>
     </div>
     <p class="req">Mac 版は Apple の公証済みで、ダウンロードしてそのまま開けます。Windows 版は初回に注意の画面が出ます（<a href="#win">開き方</a>）。<br>分離に使うモデルは、初めて使うときに Meta の公式サーバーからダウンロードします（<a href="#model">くわしく</a>）。</p>
@@ -155,7 +155,7 @@
     <details><summary>安全ですか？</summary><p>Mac 版は Apple の公証（ノータリゼーション）を受けた正式な署名つきのアプリです。曲はお使いのパソコンの中だけで処理し、外へは送りません。インターネットを使うのは、起動時に新しい版があるかを確かめるとき（このページの版番号を読むだけです）と、モデルや GPU 用の部品を初めてダウンロードするときだけです。</p></details>
     <details id="model"><summary>分離のモデルはどこから来るの？</summary><p>Meta が公開している Demucs の学習済みモデル（重み）を使います。このモデルはアプリには入っておらず、分け方ごとに初めて使うときだけ、確認の画面を出してから Meta の公式サーバーからお使いの Mac へダウンロードします（4パート 約84MB・6パート 約55MB・4パート高品質 約320MB）。<br>このモデルは、Meta が研究目的に限って公開しているものです（<a href="https://github.com/facebookresearch/demucs/issues/327">開発者の説明</a>）。使い方はご自身の判断でお願いします。Demucs のプログラム自体は MIT ライセンスです。</p></details>
     <details id="win"><summary>Windows で「Windows によって PC が保護されました」と出ます</summary><p>個人で作っているアプリで、Windows 用の有料の署名を付けていないため、初めて開くときに出ます。「詳細情報」を押すと出てくる「実行」ボタンで開けます。2回目からは出ません。</p></details>
-    <details><summary>NVIDIA の GPU で速くできますか？（Windows・Linux）</summary><p>できます。NVIDIA の GPU がある PC では、画面の上に「GPU 用の部品を入れる」が出ます。押すと、GPU で計算するための部品（CUDA 版の PyTorch・約2.5GB）を PyTorch の公式サーバーからダウンロードして入れます。空き容量が約8GB 要ります。入れたあとは自動で GPU を使い、CPU より10倍以上速くなります。NVIDIA のドライバーが古いと入れられないことがあります。</p></details>
+    <details><summary>NVIDIA の GPU で速くできますか？（Windows・Linux）</summary><p>できます。NVIDIA の GPU がある PC では、画面の上に「GPU 用の部品を入れる」が出ます。押すと、GPU で計算するための部品（CUDA 版の PyTorch。Windows は約3GB、Linux は NVIDIA のライブラリも含めて約5GB）を PyTorch の公式サーバーからダウンロードして入れます。空き容量は Windows で約8GB、Linux で約12GB 見ておいてください。入れたあとは自動で GPU を使い、CPU より10倍以上速くなります。NVIDIA のドライバーが古いと入れられないことがあります。</p></details>
     <details><summary>Linux での入れ方は？</summary><p>Ubuntu・Debian 系なら、ダウンロードした deb を <code>sudo apt install ./gogo-splitter_0.4.2_amd64.deb</code> で入れます。メニューに「午後のすぷりった〜」が出ます。</p></details>
     <details><summary>Windows・Linux で M4A が読めません</summary><p>Windows と Linux では、M4A・AAC などを読むのに ffmpeg を使います（アプリには入っていません）。ffmpeg を入れるか、MP3・WAV・FLAC・OGG に変換してから使ってください。Mac はそのまま読めます。</p></details>
     <details><summary>分離の精度は？</summary><p>Meta の音源分離 Demucs（htdemucs）を使っています。ボーカルとドラムは特にきれいに分かれます。曲によっては、ほかのパートの音が少し残ることがあります。</p></details>
