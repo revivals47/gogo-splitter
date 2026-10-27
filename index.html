@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>午後のすぷりった〜</title>
+<meta name="description" content="曲をボーカル・ドラム・ベース・その他に分ける、無料の Mac アプリ。ドロップして押すだけ。曲はどこにも送りません。">
+<meta property="og:title" content="午後のすぷりった〜">
+<meta property="og:description" content="曲をボーカル・ドラム・ベースに分ける、無料の Mac アプリ。メイドさんが走ります。">
+<meta property="og:image" content="https://revivals47.github.io/gogo-splitter/assets/icon.png">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<style>
+  :root {
+    --bg: #fbf8ff; --panel: #ffffff; --ink: #2a2340; --ink-2: #5d5576; --line: #e6def5;
+    --accent: #7b5cd6; --accent-2: #a98af0; --accent-ink: #fff; --soft: #f1ebff; --warn: #c2410c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17131f; --panel: #211b2d; --ink: #eee9f8; --ink-2: #b4abc9; --line: #352c47;
+      --accent: #a98af0; --accent-2: #7b5cd6; --accent-ink: #17131f; --soft: #2a2238; --warn: #fb923c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    line-height: 1.75;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 56px 0 24px; text-align: center; }
+  .icon { width: 112px; height: 112px; border-radius: 24px; }
+  h1 { font-size: clamp(30px, 6vw, 44px); margin: 8px 0 4px; letter-spacing: .02em; }
+  .lead { font-size: clamp(16px, 2.6vw, 19px); color: var(--ink-2); margin: 0 0 4px; }
+  .sub { font-size: 14px; color: var(--ink-2); margin: 0; }
+
+  /* 走るメイドさん：アプリの絵（4コマ）をそのまま使う */
+  .track { position: relative; height: 150px; margin: 28px auto 8px; max-width: 640px; }
+  .bar { position: absolute; left: 0; right: 0; bottom: 10px; height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-2), var(--accent)); animation: fill 6s linear infinite; }
+  .maid {
+    position: absolute; bottom: 18px; left: 0; width: 78px; height: 120px;
+    background: url(assets/run.png) 0 0 / 312px 120px no-repeat;
+    animation: frames .4s steps(4) infinite, go 6s linear infinite;
+  }
+  @keyframes frames { to { background-position: -312px 0; } }
+  @keyframes go { 0% { left: 0; } 85% { left: calc(100% - 78px); } 100% { left: calc(100% - 78px); } }
+  @keyframes fill { 0% { width: 0; } 85% { width: 100%; } 100% { width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .maid, .bar i { animation: none; } .bar i { width: 60%; } .maid { left: 55%; } }
+
+  .dl { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 20px 0 8px; }
+  .btn {
+    display: inline-flex; flex-direction: column; align-items: center; min-width: 230px;
+    padding: 12px 22px; border-radius: 14px; text-decoration: none; font-weight: 700;
+    background: var(--accent); color: var(--accent-ink); border: 2px solid var(--accent);
+  }
+  .btn small { font-weight: 400; font-size: 12px; opacity: .9; }
+  .btn.ghost { background: transparent; color: var(--accent); }
+  .req { text-align: center; font-size: 13px; color: var(--ink-2); margin: 6px 0 0; }
+
+  section { padding: 36px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 22px; margin: 0 0 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .card b { display: block; margin-bottom: 4px; }
+  .card p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  ol.steps { padding-left: 1.4em; margin: 0; }
+  ol.steps li { margin: 6px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  td, th { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--ink-2); font-weight: 600; white-space: nowrap; }
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 16px; margin: 10px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { margin: 8px 0 2px; font-size: 14px; color: var(--ink-2); }
+  .bow { width: 66px; height: 160px; background: url(assets/bow.png) -198px 0 / 264px 160px no-repeat; margin: 0 auto; transform: scale(.75); }
+  footer { padding: 24px 0 48px; border-top: 1px solid var(--line); text-align: center; font-size: 13px; color: var(--ink-2); }
+  footer p { margin: 4px 0; }
+  .note { font-size: 13px; color: var(--ink-2); }
+  code { background: var(--soft); padding: 1px 6px; border-radius: 6px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="icon" src="assets/icon.png" alt="">
+    <h1>午後のすぷりった〜</h1>
+    <p class="lead">曲をボーカル・ドラム・ベース・その他に分ける、無料の Mac アプリ</p>
+    <p class="sub">ドロップして「分ける」を押すだけ。待っているあいだはメイドさんが走ります。</p>
+
+    <div class="track" aria-hidden="true"><div class="bar"><i></i></div><div class="maid"></div></div>
+
+    <div class="dl">
+      <a class="btn" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.0/GogoSplitter-0.4.0-AppleSilicon.dmg">
+        ダウンロード（M チップの Mac）<small>v0.4.0 ・ 約460MB ・ macOS 12.3 以降</small>
+      </a>
+      <a class="btn ghost" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.0/GogoSplitter-0.4.0-Intel.dmg">
+        Intel の Mac<small>v0.4.0 ・ macOS 11 以降 ・ 動作確認中</small>
+      </a>
+    </div>
+    <p class="req">Apple の公証済み。ダウンロードしてそのまま開けます。</p>
+  </header>
+
+  <section>
+    <h2>できること</h2>
+    <div class="grid">
+      <div class="card"><b>ドロップして押すだけ</b><p>MP3・WAV・FLAC・M4A・AAC・OGG・AIFF。何曲でもまとめて入れられます。</p></div>
+      <div class="card"><b>分け方を選べる</b><p>4パート（ボーカル・ドラム・ベース・その他）、6パート（ギター・ピアノも）、「ボーカルとそれ以外」の2つ。</p></div>
+      <div class="card"><b>その場で聴ける</b><p>終わったらパートごとにミュート・ソロ・音量。耳コピや練習にそのまま使えます。</p></div>
+      <div class="card"><b>曲はどこにも送らない</b><p>処理はこの Mac の中だけ。アカウントもアップロードもありません。</p></div>
+      <div class="card"><b>書き出しも選べる</b><p>WAV（24bit）・FLAC・MP3。元の曲の隣に、曲名のフォルダで作ります。</p></div>
+      <div class="card"><b>無料</b><p>ずっと無料です。広告もありません。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>使い方</h2>
+    <ol class="steps">
+      <li>ダウンロードした dmg を開き、「午後のすぷりった〜」を Applications フォルダへドラッグします。</li>
+      <li>アプリを開いて、曲のファイルを画面にドロップします。</li>
+      <li>分け方を選んで「分ける」を押します。メイドさんが走り終わったら完成です。</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>時間の目安（5分の曲）</h2>
+    <table>
+      <tr><th>M チップの Mac</th><td>1分前後（Mac の GPU で処理します。MacBook Air M1 で約45秒の例）</td></tr>
+      <tr><th>Intel の Mac</th><td>数分〜10分ほど（ほとんど CPU で処理します）</td></tr>
+      <tr><th>4パート・高品質</th><td>上の約4倍。初回だけモデル（約320MB）をダウンロードします</td></tr>
+    </table>
+    <p class="note">1時間を超えるような長い曲は、メモリが足りなくなることがあります。</p>
+  </section>
+
+  <section>
+    <h2>よくある質問</h2>
+    <details><summary>安全ですか？</summary><p>Apple の公証（ノータリゼーション）を受けた正式な署名つきのアプリです。曲はこの Mac の中だけで処理し、外へは送りません。インターネットを使うのは「4パート・高品質」のモデルを初めてダウンロードするときだけです。</p></details>
+    <details><summary>分離の精度は？</summary><p>Meta が公開している音源分離の Demucs（htdemucs）を使っています。ボーカルとドラムは特にきれいに分かれます。曲によっては、ほかのパートの音が少し残ることがあります。</p></details>
+    <details><summary>Intel の Mac でも使えますか？</summary><p>Intel 版も用意していますが、作者の手元に Intel の Mac がなく、まだ実機で十分に確かめられていません。うまく動かなかったら、下の連絡先へ教えてください。</p></details>
+    <details><summary>うまく動かないときは？</summary><p>画面の「ログを開く」で出てくる <code>worker.log</code> を添えて、下の連絡先へ送ってください。</p></details>
+    <details><summary>名前の由来は？</summary><p>MP3 エンコーダーの名作「午後のこ〜だ」へのオマージュです。敬意をこめて。</p></details>
+  </section>
+
+  <section style="text-align:center">
+    <div class="bow" aria-hidden="true"></div>
+    <p>ご意見・不具合のご連絡は <a href="mailto:revivals47@yahoo.co.jp">revivals47@yahoo.co.jp</a> か <a href="https://github.com/revivals47/gogo-splitter/issues">GitHub の Issues</a> へ。</p>
+  </section>
+
+  <footer>
+    <p>音の分離には <a href="https://github.com/facebookresearch/demucs">Demucs</a>（Meta・MIT ライセンス）を使っています。</p>
+    <p>同梱ソフトウェアのライセンス：<a href="THIRD_PARTY_LICENSES.txt">THIRD_PARTY_LICENSES.txt</a>（dmg にも同じものが入っています）</p>
+    <p>&copy; 2026 午後のすぷりった〜</p>
+  </footer>
+</div>
+</body>
+</html>
