@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>午後のすぷりった〜</title>
-<meta name="description" content="曲をボーカル・ドラム・ベース・その他に分ける、無料の Mac アプリ。ドロップして押すだけ。曲はどこにも送りません。">
+<meta name="description" content="曲をボーカル・ドラム・ベース・その他に分ける、無料のアプリ（Mac・Windows・Linux）。ドロップして押すだけ。曲はどこにも送りません。">
 <meta property="og:title" content="午後のすぷりった〜">
-<meta property="og:description" content="曲をボーカル・ドラム・ベースに分ける、無料の Mac アプリ。メイドさんが走ります。">
+<meta property="og:description" content="曲をボーカル・ドラム・ベースに分ける、無料のアプリ（Mac・Windows・Linux）。メイドさんが走ります。">
 <meta property="og:image" content="https://revivals47.github.io/gogo-splitter/assets/icon.png">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/icon.png">
@@ -87,20 +87,35 @@
   <header>
     <img class="icon" src="assets/icon.png" alt="">
     <h1>午後のすぷりった〜</h1>
-    <p class="lead">曲をボーカル・ドラム・ベース・その他に分ける、無料の Mac アプリ</p>
+    <p class="lead">曲をボーカル・ドラム・ベース・その他に分ける、無料のアプリ（Mac・Windows・Linux）</p>
     <p class="sub">ドロップして「分ける」を押すだけ。待っているあいだはメイドさんが走ります。</p>
 
     <div class="track" aria-hidden="true"><div class="bar"><i></i></div><div class="maid"></div></div>
 
-    <div class="dl">
-      <a class="btn" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.1/GogoSplitter-0.4.1-AppleSilicon.dmg">
-        ダウンロード（M チップの Mac）<small>v0.4.1 ・ 約340MB ・ macOS 12.3 以降</small>
+    <div class="dl" id="dl">
+      <a class="btn" data-os="mac-arm" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.2/GogoSplitter-0.4.2-AppleSilicon.dmg">
+        Mac（M チップ）<small>v0.4.2 ・ 約340MB ・ macOS 12.3 以降</small>
       </a>
-      <a class="btn ghost" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.1/GogoSplitter-0.4.1-Intel.dmg">
-        Intel の Mac<small>v0.4.1 ・ 約350MB ・ macOS 11 以降 ・ 動作確認中</small>
+      <a class="btn" data-os="win" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.2/GogoSplitter-0.4.2-Windows-x64-setup.exe">
+        Windows<small>v0.4.2 ・ 約120MB ・ Windows 10 / 11（64bit）</small>
+      </a>
+      <a class="btn" data-os="mac-intel" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.2/GogoSplitter-0.4.2-Intel.dmg">
+        Mac（Intel）<small>v0.4.2 ・ 約350MB ・ macOS 11 以降 ・ 動作確認中</small>
+      </a>
+      <a class="btn" data-os="linux" href="https://github.com/revivals47/gogo-splitter/releases/download/v0.4.2/gogo-splitter_0.4.2_amd64.deb">
+        Linux（Ubuntu など・deb）<small>v0.4.2 ・ x86_64</small>
       </a>
     </div>
-    <p class="req">Apple の公証済み。ダウンロードしてそのまま開けます。<br>分離に使うモデルは、初めて使うときに Meta の公式サーバーからダウンロードします（<a href="#model">くわしく</a>）。</p>
+    <p class="req">Mac 版は Apple の公証済みで、ダウンロードしてそのまま開けます。Windows 版は初回に注意の画面が出ます（<a href="#win">開き方</a>）。<br>分離に使うモデルは、初めて使うときに Meta の公式サーバーからダウンロードします（<a href="#model">くわしく</a>）。</p>
+    <script>
+      // 見ている人の OS のボタンを目立たせる（ほかは枠だけ）
+      (function () {
+        var ua = navigator.userAgent, os = /Windows/.test(ua) ? 'win' : /Linux|X11/.test(ua) && !/Android/.test(ua) ? 'linux' : /Mac/.test(ua) ? 'mac-arm' : '';
+        var btns = document.querySelectorAll('#dl .btn');
+        for (var i = 0; i < btns.length; i++) { if (os && btns[i].getAttribute('data-os') !== os) btns[i].className = 'btn ghost'; }
+        if (os) { var me = document.querySelector('#dl [data-os="' + os + '"]'); me.parentNode.insertBefore(me, me.parentNode.firstChild); }
+      })();
+    </script>
   </header>
 
   <section>
@@ -109,7 +124,7 @@
       <div class="card"><b>ドロップして押すだけ</b><p>MP3・WAV・FLAC・M4A・AAC・OGG・AIFF。何曲でもまとめて入れられます。</p></div>
       <div class="card"><b>分け方を選べる</b><p>4パート（ボーカル・ドラム・ベース・その他）、6パート（ギター・ピアノも）、「ボーカルとそれ以外」の2つ。</p></div>
       <div class="card"><b>その場で聴ける</b><p>終わったらパートごとにミュート・ソロ・音量。耳コピや練習にそのまま使えます。</p></div>
-      <div class="card"><b>曲はどこにも送らない</b><p>処理はこの Mac の中だけ。アカウントもアップロードもありません。</p></div>
+      <div class="card"><b>曲はどこにも送らない</b><p>処理はお使いのパソコンの中だけ。アカウントもアップロードもありません。</p></div>
       <div class="card"><b>書き出しも選べる</b><p>WAV（24bit）・FLAC・MP3。元の曲の隣に、曲名のフォルダで作ります。</p></div>
       <div class="card"><b>待ち時間も楽しく</b><p>処理中はメイドさんが走ります。残り時間も出るので、いつ終わるかが分かります。</p></div>
     </div>
@@ -128,7 +143,8 @@
     <h2>時間の目安（5分の曲）</h2>
     <table>
       <tr><th>M チップの Mac</th><td>1分前後（Mac の GPU で処理します。MacBook Air M1 で約45秒の例）</td></tr>
-      <tr><th>Intel の Mac</th><td>数分〜10分ほど（ほとんど CPU で処理します）</td></tr>
+      <tr><th>Windows・Linux（NVIDIA の GPU）</th><td>十数秒（GPU 用の部品を入れたとき。RTX 4070 で3分の曲が約10秒）</td></tr>
+      <tr><th>Intel の Mac・GPU なしの PC</th><td>数分〜10分ほど（CPU で処理します）</td></tr>
       <tr><th>4パート・高品質</th><td>上の約4倍</td></tr>
     </table>
     <p class="note">1時間を超えるような長い曲は、メモリが足りなくなることがあります。</p>
@@ -136,8 +152,12 @@
 
   <section>
     <h2>よくある質問</h2>
-    <details><summary>安全ですか？</summary><p>Apple の公証（ノータリゼーション）を受けた正式な署名つきのアプリです。曲はこの Mac の中だけで処理し、外へは送りません。インターネットを使うのは、起動時に新しい版があるかを確かめるとき（このページの版番号を読むだけです）と、モデルを初めてダウンロードするときだけです。</p></details>
+    <details><summary>安全ですか？</summary><p>Mac 版は Apple の公証（ノータリゼーション）を受けた正式な署名つきのアプリです。曲はお使いのパソコンの中だけで処理し、外へは送りません。インターネットを使うのは、起動時に新しい版があるかを確かめるとき（このページの版番号を読むだけです）と、モデルや GPU 用の部品を初めてダウンロードするときだけです。</p></details>
     <details id="model"><summary>分離のモデルはどこから来るの？</summary><p>Meta が公開している Demucs の学習済みモデル（重み）を使います。このモデルはアプリには入っておらず、分け方ごとに初めて使うときだけ、確認の画面を出してから Meta の公式サーバーからお使いの Mac へダウンロードします（4パート 約84MB・6パート 約55MB・4パート高品質 約320MB）。<br>このモデルは、Meta が研究目的に限って公開しているものです（<a href="https://github.com/facebookresearch/demucs/issues/327">開発者の説明</a>）。使い方はご自身の判断でお願いします。Demucs のプログラム自体は MIT ライセンスです。</p></details>
+    <details id="win"><summary>Windows で「Windows によって PC が保護されました」と出ます</summary><p>個人で作っているアプリで、Windows 用の有料の署名を付けていないため、初めて開くときに出ます。「詳細情報」を押すと出てくる「実行」ボタンで開けます。2回目からは出ません。</p></details>
+    <details><summary>NVIDIA の GPU で速くできますか？（Windows・Linux）</summary><p>できます。NVIDIA の GPU がある PC では、画面の上に「GPU 用の部品を入れる」が出ます。押すと、GPU で計算するための部品（CUDA 版の PyTorch・約2.5GB）を PyTorch の公式サーバーからダウンロードして入れます。空き容量が約8GB 要ります。入れたあとは自動で GPU を使い、CPU より10倍以上速くなります。NVIDIA のドライバーが古いと入れられないことがあります。</p></details>
+    <details><summary>Linux での入れ方は？</summary><p>Ubuntu・Debian 系なら、ダウンロードした deb を <code>sudo apt install ./gogo-splitter_0.4.2_amd64.deb</code> で入れます。メニューに「午後のすぷりった〜」が出ます。</p></details>
+    <details><summary>Windows・Linux で M4A が読めません</summary><p>Windows と Linux では、M4A・AAC などを読むのに ffmpeg を使います（アプリには入っていません）。ffmpeg を入れるか、MP3・WAV・FLAC・OGG に変換してから使ってください。Mac はそのまま読めます。</p></details>
     <details><summary>分離の精度は？</summary><p>Meta の音源分離 Demucs（htdemucs）を使っています。ボーカルとドラムは特にきれいに分かれます。曲によっては、ほかのパートの音が少し残ることがあります。</p></details>
     <details><summary>Intel の Mac でも使えますか？</summary><p>Intel 版も用意していますが、作者の手元に Intel の Mac がなく、まだ実機で十分に確かめられていません。うまく動かなかったら、下の連絡先へ教えてください。</p></details>
     <details><summary>うまく動かないときは？</summary><p>画面の「ログを開く」で出てくる <code>worker.log</code> を添えて、下の連絡先へ送ってください。</p></details>
